@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req,res) => {
-    res.render("index.ejs");
+    res.render("index.ejs", {tasks:tasks});
 });
 
 app.get("/add", (req,res) => {
@@ -26,8 +26,10 @@ app.post("/add", (req,res) => {
     
     const newTask = {id: id, title: title, description:description, timestamp:timestamp}
     tasks.push(newTask);
+    res.redirect("/");
     console.log(tasks);
 });
+
 
 app.listen(port, ()=>{
     console.log(`server running on port ${port}`);
