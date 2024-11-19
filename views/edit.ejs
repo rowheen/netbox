@@ -4,74 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
-    <title>Edit Task</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <title>Add Circuit</title>
+    <style>
+        /* Red to Purple Gradient for the Navbar */
+        .navbar {
+            background: linear-gradient(to right, red, purple);
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .tag-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 15px;
+        }
+
+        .tag-badge .remove-tag {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .duplicate-tag-warning {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <!-- Heading inside navbar -->
-                <a class="navbar-brand" href="#">To Do List</a>
-                
-                <!-- Button to go back to the main page -->
-                <a class="btn btn-secondary ms-auto" href="/" role="button">Back to List</a>
-            </div>
-        </nav>
 
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-6">
-                <!-- Edit Task Form -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Edit Task</h5>
-                        <% if (locals.task) { %>
-                            <form action="/add/<%= task.id %>" method="POST">
-                                <!-- Task Title -->
-                                <div class="mb-3">
-                                    <label for="taskTitle" class="form-label">Task Title</label>
-                                    <input type="text" class="form-control" id="taskTitle" name="title" value="<%= task.title %>" required>
-                                </div>
-    
-                                <!-- Task Description -->
-                                <div class="mb-3">
-                                    <label for="taskDescription" class="form-label">Task Description</label>
-                                    <textarea class="form-control" id="taskDescription" name="description" rows="4" required><%= task.description %></textarea>
-                                </div>
-    
-                                <!-- Task Timestamp (Optional Field) -->
-                                <div class="mb-3">
-                                    <label for="taskTimestamp" class="form-label">Timestamp</label>
-                                    <input type="text" class="form-control" id="taskTimestamp" name="timestamp" value="<%= task.timestamp %>" readonly>
-                                </div>
-    
-                                <!-- Submit Button -->
-                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                            </form>
-                        <% } else{ %>
-                            <form action="/add" method="POST">
-                                <!-- Task Title -->
-                                <div class="mb-3">
-                                    <label for="taskTitle" class="form-label">Task Title</label>
-                                    <input type="text" class="form-control" id="taskTitle" name="title" placeholder="Title" required>
-                                </div>
-    
-                                <!-- Task Description -->
-                                <div class="mb-3">
-                                    <label for="taskDescription" class="form-label">Task Description</label>
-                                    <textarea class="form-control" id="taskDescription" name="description" rows="4" placeholder="Sescription"></textarea>
-                                </div>
+<div class="container">
+    <!-- Navbar with To Do List heading and Add Task button -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="#">Netbox</a>
+            <a class="btn btn-danger btn-outline-light ms-auto" href="/" role="button">Back to List</a>
+        </div>
+    </nav>  
 
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Add Circuit</h5>
+                    <% if (locals.task) { %>
+                        <form action="/add/<%= task.id %>" method="POST" id="form-edit-task">
+                            <div class="mb-3">
+                                <label for="taskTitleEdit" class="form-label">CID</label>
+                                <input type="text" class="form-control" id="taskTitleEdit" name="title" value="<%= task.title %>" required>
+                            </div>
     
-                                <!-- Submit Button -->
-                                <button type="submit" class="btn btn-primary">Save</button>
-                            </form>
-                        <% } %>
-                    </div>
+                            <div class="mb-3">
+                                <label for="taskDescriptionEdit" class="form-label">Task Description</label>
+                                <textarea class="form-control" id="taskDescriptionEdit" name="description" rows="4" required><%= task.description %></textarea>
+                            </div>
+    
+                            <div class="mb-3">
+                                <label for="taskTimestampEdit" class="form-label">Timestamp</label>
+                                <input type="text" class="form-control" id="taskTimestampEdit" name="timestamp" value="<%= task.timestamp %>" readonly>
+                            </div>
+    
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    <% } else { %>
+                        <form action="/add" method="POST" id="form-add-task">
+                            <!-- CID -->
+                            <div class="mb-3">
+                                <label for="taskTitleAdd" class="form-label">CID</label>
+                                <input type="text" class="form-control" id="taskTitleAdd" name="CID" placeholder="CID" required>
+                            </div>
+    
+                            <!-- Provider -->
+                            <div class="mb-3">
+                                <label for="taskProviderAdd" class="form-label">Provider</label>
+                                <input type="text" class="form-control" id="taskProviderAdd" name="provider" placeholder="Provider" required>
+                            </div>
+
+                            <!-- Type -->
+                            <div class="mb-3">
+                                <label for="taskTypeAdd" class="form-label">Type</label>
+                                <input type="text" class="form-control" id="taskTypeAdd" name="type" placeholder="Type" required>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="mb-3">
+                                <label for="taskStatusAdd" class="form-label">Status</label>
+                                <input type="text" class="form-control" id="taskStatusAdd" name="status" placeholder="Status" required>
+                            </div>
+
+                            <!-- Tenant -->
+                            <div class="mb-3">
+                                <label for="taskTenantAdd" class="form-label">Tenant</label>
+                                <input type="text" class="form-control" id="taskTenantAdd" name="tenant" placeholder="Tenant" required>
+                            </div>
+
+                            <!-- Termination -->
+                            <div class="mb-3">
+                                <label for="taskTerminationAdd" class="form-label">Termination</label>
+                                <input type="text" class="form-control" id="taskTerminationAdd" name="termination" placeholder="Termination" required>
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="mb-3">
+                                <label for="taskTagsAdd" class="form-label">Tags</label>
+                                <select name="tags" class="form-control select2" id="taskTagsAdd" multiple="multiple" required>
+                                    <option value="27">Baudcom ONT</option>
+                                    <option value="28">DHCP2</option>
+                                    <option value="30">OLT1</option>
+                                    <option value="21">ONT</option>
+                                    <option value="38">PORT2</option>
+                                </select>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        // Predefined tags
+        const predefinedTags = ['Baudcom ONT', 'DHCP2', 'OLT1', 'ONT', 'PORT2'];
+
+        // Initialize Select2 for multi-select
+        $('#taskTagsAdd').select2({
+            placeholder: "Select tags",
+            tags: false, // Disable creating new tags
+            tokenSeparators: [',', ' '], // Allows separation by comma or space
+            width: '100%'  // Ensure full width
+        });
+
+        // Form submission validation
+        $('#form-add-task').on('submit', function(e) {
+            const selectedTags = $('#taskTagsAdd').val(); // Get selected tags
+            if (!selectedTags || selectedTags.length === 0) {
+                e.preventDefault();
+                alert("Please select at least one tag.");
+            }
+        });
+
+        // Edit form validation
+        $('#form-edit-task').on('submit', function(e) {
+            const selectedTags = $('#taskTagsAdd').val(); // Get selected tags (same id for tags)
+            if (!selectedTags || selectedTags.length === 0) {
+                e.preventDefault();
+                alert("Please select at least one tag.");
+            }
+        });
+
+        // Custom validation for tags - prevent non-predefined tags
+        $('#taskTagsAdd').on('select2:select', function(e) {
+            const selectedTag = e.params.data.text;
+            if (!predefinedTags.includes(selectedTag)) {
+                alert('You can only select predefined tags.');
+                $(this).val(null).trigger('change'); // Clear the invalid selection
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
