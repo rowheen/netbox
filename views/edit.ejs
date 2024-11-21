@@ -12,6 +12,7 @@
             background: linear-gradient(to right, red, purple);
         }
 
+        /* Custom styling for the tags */
         .tag-container {
             display: flex;
             flex-wrap: wrap;
@@ -38,26 +39,45 @@
             font-size: 0.9rem;
         }
 
+        /* Style for card and form components to match the first theme */
+        .card {
+            border: 1px solid #dc3545; /* Same as bg-danger border color */
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Button styles to match */
+        .btn-outline-light {
+            border-color: white;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
     <!-- Navbar with To Do List heading and Add Task button -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="#">Netbox</a>
             <a class="btn btn-danger btn-outline-light ms-auto" href="/" role="button">Back to List</a>
         </div>
     </nav>  
 
+
     <div class="row justify-content-center mt-4">
-        <div class="col-md-6">
+        <div class="col-md-8">  <!-- Adjusted the column size to occupy more space -->
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Add Circuit</h5>
-                    <% if (locals.task) { %>
-                        <form action="/add/<%= task.id %>" method="POST" id="form-edit-task">
+                    <% if (locals.circuit) { %>
+                        <form action="/add/<%= circuit.id %>" method="POST" id="form-edit-task">
                             <div class="mb-3">
                                 <label for="taskTitleEdit" class="form-label">CID</label>
                                 <input type="text" class="form-control" id="taskTitleEdit" name="title" value="<%= task.title %>" required>
@@ -76,11 +96,11 @@
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </form>
                     <% } else { %>
-                        <form action="/add" method="POST" id="form-add-task">
+                        <form action="/add" method="POST" id="form-add-circuit">
                             <!-- CID -->
                             <div class="mb-3">
                                 <label for="taskTitleAdd" class="form-label">CID</label>
-                                <input type="text" class="form-control" id="taskTitleAdd" name="CID" placeholder="CID" required>
+                                <input type="text" class="form-control" id="taskTitleAdd" name="cid" placeholder="CID" required>
                             </div>
     
                             <!-- Provider -->
@@ -110,19 +130,30 @@
                             <!-- Termination -->
                             <div class="mb-3">
                                 <label for="taskTerminationAdd" class="form-label">Termination</label>
-                                <input type="text" class="form-control" id="taskTerminationAdd" name="termination" placeholder="Termination" required>
+                                <select name="termination" class="form-select" aria-label="Default select example" required>
+                                    <option value="" disabled selected>Termination</option>
+                                    <option value="SCC">SCC</option>
+                                    <option value="Adriatico">Adriatico</option>
+                                    <option value="Alabang">Alabang</option>
+                                  </select>
                             </div>
 
                             <!-- Tags -->
                             <div class="mb-3">
                                 <label for="taskTagsAdd" class="form-label">Tags</label>
                                 <select name="tags" class="form-control select2" id="taskTagsAdd" multiple="multiple" required>
-                                    <option value="27">Baudcom ONT</option>
-                                    <option value="28">DHCP2</option>
-                                    <option value="30">OLT1</option>
-                                    <option value="21">ONT</option>
-                                    <option value="38">PORT2</option>
+                                    <option value="Baudcom ONT">Baudcom ONT</option>
+                                    <option value="DHCP2">DHCP2</option>
+                                    <option value="OLT1">OLT1</option>
+                                    <option value="ONT">ONT</option>
+                                    <option value="PORT2">PORT2</option>
                                 </select>
+                            </div>
+
+                            <!-- Commit Rate -->
+                            <div class="mb-3">
+                                <label for="taskDescriptionAdd" class="form-label">Commit Rate</label>
+                                <input type="text" class="form-control" id="taskDescriptionAdd" name="commitRate" placeholder="in Mbps" required>
                             </div>
 
                             <!-- Submit Button -->
@@ -133,7 +164,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
