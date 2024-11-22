@@ -100,25 +100,40 @@
                             <!-- CID -->
                             <div class="mb-3">
                                 <label for="taskTitleAdd" class="form-label">CID</label>
-                                <input type="text" class="form-control" id="taskTitleAdd" name="cid" placeholder="CID" required>
+                                <input type="number" class="form-control" id="taskTitleAdd" name="cid" placeholder="CID" min="1"  required>
                             </div>
     
                             <!-- Provider -->
                             <div class="mb-3">
                                 <label for="taskProviderAdd" class="form-label">Provider</label>
-                                <input type="text" class="form-control" id="taskProviderAdd" name="provider" placeholder="Provider" required>
+                                <select name="provider" class="form-select" aria-label="Default select example" required>
+                                    <option value="" disabled selected>Provider</option>
+                                    <option value="PT&T">PT&T</option>
+                                    <option value="PT&T - Airlive">PT&T - Airlive</option>
+                                    <option value="PT&T - Converge">PT&T - Converge</option>
+                                </select>
                             </div>
 
                             <!-- Type -->
                             <div class="mb-3">
                                 <label for="taskTypeAdd" class="form-label">Type</label>
-                                <input type="text" class="form-control" id="taskTypeAdd" name="type" placeholder="Type" required>
+                                <select name="type" class="form-select" aria-label="Default select example" required>
+                                    <option value="" disabled selected>Type</option>
+                                    <option value="Internet">Internet</option>
+                                    <option value="DIA">DIA</option>
+                                    <option value="DLL">DLL</option>
+                                </select>
                             </div>
 
                             <!-- Status -->
                             <div class="mb-3">
                                 <label for="taskStatusAdd" class="form-label">Status</label>
-                                <input type="text" class="form-control" id="taskStatusAdd" name="status" placeholder="Status" required>
+                                <select name="status" class="form-select" aria-label="Default select example" required>
+                                    <option value="" disabled selected>Status</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Decommissioned">Decommissioned</option>
+                                    <option value="Offline">Offline</option>
+                                </select>
                             </div>
 
                             <!-- Tenant -->
@@ -153,7 +168,7 @@
                             <!-- Commit Rate -->
                             <div class="mb-3">
                                 <label for="taskDescriptionAdd" class="form-label">Commit Rate</label>
-                                <input type="text" class="form-control" id="taskDescriptionAdd" name="commitRate" placeholder="in Mbps" required>
+                                <input type="number" class="form-control" name="commitRate" placeholder="in Mbps" min="0" required>
                             </div>
 
                             <!-- Submit Button -->
@@ -177,7 +192,7 @@
 
         // Initialize Select2 for multi-select
         $('#taskTagsAdd').select2({
-            placeholder: "Select tags",
+            placeholder: "Tags",
             tags: false, // Disable creating new tags
             tokenSeparators: [',', ' '], // Allows separation by comma or space
             width: '100%'  // Ensure full width
