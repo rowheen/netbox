@@ -1,5 +1,5 @@
 {
-  "name": "to-do-list",
+  "name": "l",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.3",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "method-override": "^3.0.0"
   },
-  "devDependencies": {},
   "description": ""
 }

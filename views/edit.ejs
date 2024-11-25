@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <title>Add Circuit</title>
+    <title>Edit Circuit</title>
     <style>
         /* Red to Purple Gradient for the Navbar */
         .navbar {
@@ -70,162 +70,147 @@
         </div>
     </nav>  
 
-
     <div class="row justify-content-center mt-4">
         <div class="col-md-8">  <!-- Adjusted the column size to occupy more space -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Add Circuit</h5>
-                    <% if (locals.circuit) { %>
-                        <form action="/add/<%= circuit.id %>" method="POST" id="form-edit-task">
-                            <div class="mb-3">
-                                <label for="taskTitleEdit" class="form-label">CID</label>
-                                <input type="text" class="form-control" id="taskTitleEdit" name="title" value="<%= task.title %>" required>
-                            </div>
-    
-                            <div class="mb-3">
-                                <label for="taskDescriptionEdit" class="form-label">Task Description</label>
-                                <textarea class="form-control" id="taskDescriptionEdit" name="description" rows="4" required><%= task.description %></textarea>
-                            </div>
-    
-                            <div class="mb-3">
-                                <label for="taskTimestampEdit" class="form-label">Timestamp</label>
-                                <input type="text" class="form-control" id="taskTimestampEdit" name="timestamp" value="<%= task.timestamp %>" readonly>
-                            </div>
-    
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </form>
-                    <% } else { %>
-                        <form action="/add" method="POST" id="form-add-circuit">
-                            <!-- CID -->
-                            <div class="mb-3">
-                                <label for="taskTitleAdd" class="form-label">CID</label>
-                                <input type="number" class="form-control" id="taskTitleAdd" name="cid" placeholder="CID" min="1"  required>
-                            </div>
-    
-                            <!-- Provider -->
-                            <div class="mb-3">
-                                <label for="taskProviderAdd" class="form-label">Provider</label>
-                                <select name="provider" class="form-select" aria-label="Default select example" required>
-                                    <option value="" disabled selected>Provider</option>
-                                    <option value="PT&T">PT&T</option>
-                                    <option value="PT&T - Airlive">PT&T - Airlive</option>
-                                    <option value="PT&T - Converge">PT&T - Converge</option>
-                                </select>
-                            </div>
+                    <h5 class="card-title">Edit Circuit</h5>
+                    <form action="/edit/<%= circuit.id %>" method="post" id="form-add-circuit">
+                        <!-- CID -->
+                        <div class="mb-3">
+                            <label for="taskTitleAdd" class="form-label">CID</label>
+                            <input type="number" class="form-control" id="taskTitleAdd" name="cid" value="<%= circuit.cid %>" min="1" required>
+                        </div>
 
-                            <!-- Type -->
-                            <div class="mb-3">
-                                <label for="taskTypeAdd" class="form-label">Type</label>
-                                <select name="type" class="form-select" aria-label="Default select example" required>
-                                    <option value="" disabled selected>Type</option>
-                                    <option value="Internet">Internet</option>
-                                    <option value="DIA">DIA</option>
-                                    <option value="DLL">DLL</option>
-                                </select>
-                            </div>
+                        <!-- Provider -->
+                        <div class="mb-3">
+                            <label for="taskProviderAdd" class="form-label">Provider</label>
+                            <select name="provider" class="form-select" aria-label="Default select example" required>
+                                <option value="<%= circuit.provider %>" selected><%= circuit.provider %></option>
+                                <option value="PT&T">PT&T</option>
+                                <option value="PT&T - Airlive">PT&T - Airlive</option>
+                                <option value="PT&T - Converge">PT&T - Converge</option>
+                            </select>
+                        </div>
 
-                            <!-- Status -->
-                            <div class="mb-3">
-                                <label for="taskStatusAdd" class="form-label">Status</label>
-                                <select name="status" class="form-select" aria-label="Default select example" required>
-                                    <option value="" disabled selected>Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Decommissioned">Decommissioned</option>
-                                    <option value="Offline">Offline</option>
-                                </select>
-                            </div>
+                        <!-- Type -->
+                        <div class="mb-3">
+                            <label for="taskTypeAdd" class="form-label">Type</label>
+                            <select name="type" class="form-select" aria-label="Default select example" required>
+                                <option value="<%= circuit.type %>" selected><%= circuit.type %></option>
+                                <option value="Internet">Internet</option>
+                                <option value="DIA">DIA</option>
+                                <option value="DLL">DLL</option>
+                            </select>
+                        </div>
 
-                            <!-- Tenant -->
-                            <div class="mb-3">
-                                <label for="taskTenantAdd" class="form-label">Tenant</label>
-                                <input type="text" class="form-control" id="taskTenantAdd" name="tenant" placeholder="Tenant" required>
-                            </div>
+                        <!-- Status -->
+                        <div class="mb-3">
+                            <label for="taskStatusAdd" class="form-label">Status</label>
+                            <select name="status" class="form-select" aria-label="Default select example" required>
+                                <option value="<%= circuit.status %>" selected><%= circuit.status %></option>
+                                <option value="Active">Active</option>
+                                <option value="Decommissioned">Decommissioned</option>
+                                <option value="Offline">Offline</option>
+                            </select>
+                        </div>
 
-                            <!-- Termination -->
-                            <div class="mb-3">
-                                <label for="taskTerminationAdd" class="form-label">Termination</label>
-                                <select name="termination" class="form-select" aria-label="Default select example" required>
-                                    <option value="" disabled selected>Termination</option>
-                                    <option value="SCC">SCC</option>
-                                    <option value="Adriatico">Adriatico</option>
-                                    <option value="Alabang">Alabang</option>
-                                  </select>
-                            </div>
+                        <!-- Tenant -->
+                        <div class="mb-3">
+                            <label for="taskTenantAdd" class="form-label">Tenant</label>
+                            <input type="text" class="form-control" id="taskTenantAdd" name="tenant" value="<%= circuit.tenant %>" required>
+                        </div>
 
-                            <!-- Tags -->
-                            <div class="mb-3">
-                                <label for="taskTagsAdd" class="form-label">Tags</label>
-                                <select name="tags" class="form-control select2" id="taskTagsAdd" multiple="multiple" required>
-                                    <option value="Baudcom ONT">Baudcom ONT</option>
-                                    <option value="DHCP2">DHCP2</option>
-                                    <option value="OLT1">OLT1</option>
-                                    <option value="ONT">ONT</option>
-                                    <option value="PORT2">PORT2</option>
-                                </select>
-                            </div>
+                        <!-- Termination -->
+                        <div class="mb-3">
+                            <label for="taskTerminationAdd" class="form-label">Termination</label>
+                            <select name="termination" class="form-select" aria-label="Default select example" required>
+                                <option value="<%= circuit.termination %>" selected><%= circuit.termination %></option>
+                                <option value="SCC">SCC</option>
+                                <option value="Adriatico">Adriatico</option>
+                                <option value="Alabang">Alabang</option>
+                            </select>
+                        </div>
 
-                            <!-- Commit Rate -->
-                            <div class="mb-3">
-                                <label for="taskDescriptionAdd" class="form-label">Commit Rate</label>
-                                <input type="number" class="form-control" name="commitRate" placeholder="in Mbps" min="0" required>
-                            </div>
+                        <!-- Tags -->
+                        <div class="mb-3">
+                            <label for="taskTagsAdd" class="form-label">Tags</label>
+                            <select name="tags" class="form-control select2" id="taskTagsAdd" multiple="multiple" required>
+                                <!-- Dynamically populate options using EJS -->
+                                <% circuit.tags.forEach(tag => { %>
+                                    <option value="<%= tag %>" selected><%= tag %></option>
+                                <% }); %>
+                                <!-- Predefined tags (make sure these are passed dynamically from the backend) -->
+                                
+                                <% availableTags.forEach(tag => { %>
+                                    <option value="<%= tag %>"><%= tag %></option>
+                                <% }) %>
+                                
+                            </select>
+                        </div>
 
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </form>
-                    <% } %>
+                        <!-- Commit Rate -->
+                        <div class="mb-3">
+                            <label for="taskDescriptionAdd" class="form-label">Commit Rate</label>
+                            <input type="number" class="form-control" name="commitRate" value="<%= circuit.commitRate %>" min="0" required>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+    // Predefined tags (make sure these are passed from server-side or hardcoded here)
+    const predefinedTags = ['Baudcom ONT', 'DHCP2', 'OLT1', 'ONT', 'PORT2'];
 
-<script>
-    $(document).ready(function() {
-        // Predefined tags
-        const predefinedTags = ['Baudcom ONT', 'DHCP2', 'OLT1', 'ONT', 'PORT2'];
-
-        // Initialize Select2 for multi-select
-        $('#taskTagsAdd').select2({
-            placeholder: "Tags",
-            tags: false, // Disable creating new tags
-            tokenSeparators: [',', ' '], // Allows separation by comma or space
-            width: '100%'  // Ensure full width
-        });
-
-        // Form submission validation
-        $('#form-add-task').on('submit', function(e) {
-            const selectedTags = $('#taskTagsAdd').val(); // Get selected tags
-            if (!selectedTags || selectedTags.length === 0) {
-                e.preventDefault();
-                alert("Please select at least one tag.");
+    // Initialize Select2 for multi-select
+    $('#taskTagsAdd').select2({
+        placeholder: "Select Tags",
+        tags: false,  // Disable creating new tags
+        tokenSeparators: [',', ' '],  // Allows separation by comma or space
+        width: '100%',  // Ensure full width
+        matcher: function(params, data) {
+            // If the item is selected or is an already selected tag, hide it from the dropdown
+            if (data.selected) {
+                return null; // Don't show selected tags in the dropdown
             }
-        });
-
-        // Edit form validation
-        $('#form-edit-task').on('submit', function(e) {
-            const selectedTags = $('#taskTagsAdd').val(); // Get selected tags (same id for tags)
-            if (!selectedTags || selectedTags.length === 0) {
-                e.preventDefault();
-                alert("Please select at least one tag.");
+            // If the term is part of the label, allow it in the dropdown
+            if (data.text.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
+                return data; // Show matching tags in the dropdown
             }
-        });
-
-        // Custom validation for tags - prevent non-predefined tags
-        $('#taskTagsAdd').on('select2:select', function(e) {
-            const selectedTag = e.params.data.text;
-            if (!predefinedTags.includes(selectedTag)) {
-                alert('You can only select predefined tags.');
-                $(this).val(null).trigger('change'); // Clear the invalid selection
-            }
-        });
+            return null; // Otherwise, don't show the item
+        }
     });
-</script>
+
+    // Form submission validation
+    $('#form-add-circuit').on('submit', function(e) {
+        const selectedTags = $('#taskTagsAdd').val();  // Get selected tags
+        if (!selectedTags || selectedTags.length === 0) {
+            e.preventDefault();
+            alert("Please select at least one tag.");
+        }
+    });
+
+    // Custom validation for tags - prevent non-predefined tags
+    $('#taskTagsAdd').on('select2:select', function(e) {
+        const selectedTag = e.params.data.text;
+        if (!predefinedTags.includes(selectedTag)) {
+            alert('You can only select predefined tags.');
+            $(this).val(null).trigger('change'); // Clear the invalid selection
+        }
+    });
+});
+
+    </script>
 
 </body>
 </html>
