@@ -49,6 +49,13 @@ app.post("/edit/:id", async(req,res) => {
     res.redirect("/");
 });
 
+//DELETE circuit
+
+app.get("/delete/:id", async(req,res) => {
+    await axios.delete(`${API_URL}/circuits/${req.params.id}`);
+    res.redirect("/");
+})
+
 app.listen(port, ()=>{
     console.log(`server running on port ${port}`);
 });

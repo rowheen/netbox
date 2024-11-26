@@ -24,7 +24,9 @@ app.get("/circuits", (req,res) => {
 // ADD circuit
 
 app.post("/circuits", (req,res) => {
-    const id = circuits.length + 1;
+    let previousId = circuits.slice(-1)
+
+    const id = previousId[0].id + 1;
     const cid = req.body.cid;
     const provider = req.body.provider;
     const type = req.body.type;
@@ -33,6 +35,8 @@ app.post("/circuits", (req,res) => {
     const termination = req.body.termination;
     let tags = req.body.tags;
     const commitRate = req.body.commitRate;
+
+    console.log(previousId[0].id);
 
     let convertTagsToArray = tags
     function makeArray(convertTagsToArray) {
@@ -78,7 +82,18 @@ app.patch("/circuits/:id", (req,res) => {
     selectCID.tags = makeArray(tags);
 
     res.json(selectCID);
-})
+});
+
+//DELETE circuit
+
+app.delete("/circuits/:id", (req,res) => {
+    const id = parseInt(req.params.id);
+
+    const selectIndex = circuits.findIndex((circuit) => circuit.id === id);
+
+    circuits.splice(selectIndex,1);
+    res.json({ message: "Post deleted" });
+});
 
 app.listen(port, ()=>{
     console.log(`server running on port ${port}`);
