@@ -1,6 +1,5 @@
-import express from "express";
+import express, { application } from "express";
 import bodyParser from "body-parser";
-import axios from "axios";
 
 const app = express();
 const port = 8080;
@@ -16,16 +15,18 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", (req,res) => {
-    res.render("index.ejs", {circuits: circuits});
+// GET All
+
+app.get("/circuits", (req,res) => {
+    res.json(circuits);
 });
 
-app.get("/add", (req,res) => {
-    res.render("add.ejs");
-});
+// ADD circuit
 
-app.post("/add", (req,res) => {
-    const id = circuits.length + 1;
+app.post("/circuits", (req,res) => {
+    let previousId = circuits.slice(-1)
+
+    const id = previousId[0].id + 1;
     const cid = req.body.cid;
     const provider = req.body.provider;
     const type = req.body.type;
@@ -34,6 +35,8 @@ app.post("/add", (req,res) => {
     const termination = req.body.termination;
     let tags = req.body.tags;
     const commitRate = req.body.commitRate;
+
+    console.log(previousId[0].id);
 
     let convertTagsToArray = tags
     function makeArray(convertTagsToArray) {
@@ -45,37 +48,23 @@ app.post("/add", (req,res) => {
     
     const newCircuit = {id: id, cid: cid, provider: provider, type: type, status: status, tenant: tenant, termination: termination, tags: tags, commitRate: commitRate, timestamp:timestamp}
     circuits.push(newCircuit);
-    res.redirect("/");
-    console.log(circuits);
+    res.json(newCircuit);
 });
 
-
-app.get("/edit/:id", (req, res) => {
-    const id = parseInt(req.params.id); // Ensure the id is an integer
-    const selectCID = circuits.find((circuit) => circuit.id === id);
-
-    // Log the structure of selectCID
-    console.log("SelectCID:", selectCID);
-    console.log("SelectCID tags:", selectCID.tags);
-
-    if (!selectCID) {
-        return res.status(404).send("Circuit not found.");
-    }
-
-    // Filter available tags that are not already assigned to the circuit
-    let availableTags = predefinedTags.filter((tag) => !selectCID.tags.includes(tag));
-
-    // Log availableTags
-    console.log("Available Tags:", availableTags);
-
-    // Try rendering the page after logging
-    res.render("edit.ejs", { circuit: selectCID, availableTags: availableTags });
-});
-
-app.patch("/edit/:id", (req,res) => {
+//UPDATE circuit
+app.get("/circuits/:id", (req,res) => {
     const id = parseInt(req.params.id);
     const selectCID = circuits.find((circuit) => circuit.id === id);
-    
+    let availableTags = predefinedTags.filter((tag) => !selectCID.tags.includes(tag));
+
+    res.json(selectCID);
+    res.json(availableTags);
+  });
+
+app.patch("/circuits/:id", (req,res) => {
+    const id = parseInt(req.params.id);
+    const selectCID = circuits.find((circuit) => circuit.id === id);
+
     selectCID.cid = req.body.cid;
     selectCID.provider = req.body.provider;
     selectCID.type = req.body.type;
@@ -92,12 +81,19 @@ app.patch("/edit/:id", (req,res) => {
     }
     selectCID.tags = makeArray(tags);
 
-    circuits.find((circuit) => circuit.id === id) = selectCID;
-
-    res.redirect("/");
-
+    res.json(selectCID);
 });
 
+//DELETE circuit
+
+app.delete("/circuits/:id", (req,res) => {
+    const id = parseInt(req.params.id);
+
+    const selectIndex = circuits.findIndex((circuit) => circuit.id === id);
+
+    circuits.splice(selectIndex,1);
+    res.json({ message: "Post deleted" });
+});
 
 app.listen(port, ()=>{
     console.log(`server running on port ${port}`);
