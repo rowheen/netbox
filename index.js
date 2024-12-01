@@ -1,19 +1,35 @@
 import express, { application } from "express";
 import bodyParser from "body-parser";
+import fs from "fs";
+import path from "path";
 
 const app = express();
 const port = 8080;
+const filePath = path.join(process.cwd(), 'circuits.json');
 
-let circuits = [
-    {id: 1, cid: '12345', provider: 'PT&T - Airlive', type: 'DIA', status: 'Decommissioned', tenant: 'Test', termination: 'Alabang', tags: ['Baudcom ONT', 'DHCP2', 'ONT' ], commitRate: '400', timestamp: '11/22/2024, 1:47:36 PM'}, 
-    {id: 2, cid: '54321', provider: 'PT&T - Converge', type: 'Internet', status: 'Decommissioned', tenant: 'Test2', termination: 'Adriatico', tags: ['Baudcom ONT', 'DHCP2' ], commitRate: '200', timestamp: '11/22/2024, 2:08:44 PM'}
-];
+let circuits = [];
 
 let predefinedTags = ["Baudcom ONT", "DHCP2", "OLT1", "ONT", "PORT2"];
 
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// Check if the file exists, if it does, read its contents
+if (fs.existsSync(filePath)) {
+    // If the file exists, read it synchronously
+    const rawData = fs.readFileSync(filePath, 'utf-8');
+    try {
+      // Parse the JSON data from the file into the array
+      circuits = JSON.parse(rawData);
+      console.log("Loaded circuits from file:", circuits);
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+  } else {
+    console.log("No previous data found, starting fresh.");
+  }
 
 // GET All
 
@@ -48,6 +64,7 @@ app.post("/circuits", (req,res) => {
     
     const newCircuit = {id: id, cid: cid, provider: provider, type: type, status: status, tenant: tenant, termination: termination, tags: tags, commitRate: commitRate, timestamp:timestamp}
     circuits.push(newCircuit);
+    fs.writeFileSync(filePath, JSON.stringify(circuits, null, 2));
     res.json(newCircuit);
 });
 
@@ -80,6 +97,7 @@ app.patch("/circuits/:id", (req,res) => {
         return Array.isArray(tags) ? tags : [tags];
     }
     selectCID.tags = makeArray(tags);
+    fs.writeFileSync(filePath, JSON.stringify(circuits, null, 2));
 
     res.json(selectCID);
 });
@@ -92,6 +110,7 @@ app.delete("/circuits/:id", (req,res) => {
     const selectIndex = circuits.findIndex((circuit) => circuit.id === id);
 
     circuits.splice(selectIndex,1);
+    fs.writeFileSync(filePath, JSON.stringify(circuits, null, 2));
     res.json({ message: "Post deleted" });
 });
 

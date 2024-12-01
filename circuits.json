@@ -1,0 +1,16 @@
+[
+  {
+    "id": 2,
+    "cid": "12345",
+    "provider": "PT&T",
+    "type": "Internet",
+    "status": "Decommissioned",
+    "tenant": "Test 2",
+    "termination": "Adriatico",
+    "tags": [
+      "PORT2"
+    ],
+    "commitRate": "5",
+    "timestamp": "12/1/2024, 2:21:39 PM"
+  }
+]
