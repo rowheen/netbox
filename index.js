@@ -40,9 +40,15 @@ app.get("/circuits", (req,res) => {
 // ADD circuit
 
 app.post("/circuits", (req,res) => {
-    let previousId = circuits.slice(-1)
 
-    const id = previousId[0].id + 1;
+    var id = 1;
+
+    if (circuits.length > 0){
+      let previousId = circuits.slice(-1)
+
+    id = previousId[0].id + 1;
+    }
+    
     const cid = req.body.cid;
     const provider = req.body.provider;
     const type = req.body.type;
@@ -52,7 +58,7 @@ app.post("/circuits", (req,res) => {
     let tags = req.body.tags;
     const commitRate = req.body.commitRate;
 
-    console.log(previousId[0].id);
+    // console.log(previousId[0].id);
 
     let convertTagsToArray = tags
     function makeArray(convertTagsToArray) {

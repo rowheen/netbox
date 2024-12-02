@@ -23,6 +23,14 @@ app.get("/", async(req,res) => {
     res.render("index.ejs", {circuits: response.data});
 });
 
+// GET circuit by ID
+app.get("/view/:id", async(req,res) => {
+    const response = await axios.get(`${API_URL}/circuits/${req.params.id}`);
+    console.log(response.data);
+    let availableTags = predefinedTags.filter((tag) => !response.data.tags.includes(tag));
+    res.render("view.ejs", {circuit:response.data, availableTags:availableTags});
+});
+
 // ADD circuit 
 
 app.get("/add", (req,res) => {

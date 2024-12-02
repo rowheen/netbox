@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <title>Edit Circuit</title>
+    <title>View Circuit</title>
     <style>
         /* Red to Purple Gradient for the Navbar */
         .navbar {
@@ -74,8 +74,8 @@
         <div class="col-md-8">  <!-- Adjusted the column size to occupy more space -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Edit Circuit</h5>
-                    <form action="/edit/<%= circuit.id %>" method="post" id="form-add-circuit">
+                    <h5 class="card-title">View Circuit</h5>
+                    <form action="/" method="get" id="form-view-circuit">
                         <!-- CID -->
                         <div class="mb-3">
                             <label for="taskTitleAdd" class="form-label">CID</label>
@@ -85,7 +85,7 @@
                         <!-- Provider -->
                         <div class="mb-3">
                             <label for="taskProviderAdd" class="form-label">Provider</label>
-                            <select name="provider" class="form-select" aria-label="Default select example" required>
+                            <select disabled name="provider" class="form-select" aria-label="Default select example" required>
                                 <option value="<%= circuit.provider %>" selected><%= circuit.provider %></option>
                                 <option value="PT&T">PT&T</option>
                                 <option value="PT&T - Airlive">PT&T - Airlive</option>
@@ -96,7 +96,7 @@
                         <!-- Type -->
                         <div class="mb-3">
                             <label for="taskTypeAdd" class="form-label">Type</label>
-                            <select name="type" class="form-select" aria-label="Default select example" required>
+                            <select disabled name="type" class="form-select" aria-label="Default select example" required>
                                 <option value="<%= circuit.type %>" selected><%= circuit.type %></option>
                                 <option value="Internet">Internet</option>
                                 <option value="DIA">DIA</option>
@@ -107,7 +107,7 @@
                         <!-- Status -->
                         <div class="mb-3">
                             <label for="taskStatusAdd" class="form-label">Status</label>
-                            <select name="status" class="form-select" aria-label="Default select example" required>
+                            <select disabled name="status" class="form-select" aria-label="Default select example" required>
                                 <option value="<%= circuit.status %>" selected><%= circuit.status %></option>
                                 <option value="Active">Active</option>
                                 <option value="Decommissioned">Decommissioned</option>
@@ -118,13 +118,13 @@
                         <!-- Tenant -->
                         <div class="mb-3">
                             <label for="taskTenantAdd" class="form-label">Tenant</label>
-                            <input type="text" class="form-control" id="taskTenantAdd" name="tenant" value="<%= circuit.tenant %>" required>
+                            <input disabled type="text" class="form-control" id="taskTenantAdd" name="tenant" value="<%= circuit.tenant %>" required>
                         </div>
 
                         <!-- Termination -->
                         <div class="mb-3">
                             <label for="taskTerminationAdd" class="form-label">Termination</label>
-                            <select name="termination" class="form-select" aria-label="Default select example" required>
+                            <select disabled name="termination" class="form-select" aria-label="Default select example" required>
                                 <option value="<%= circuit.termination %>" selected><%= circuit.termination %></option>
                                 <option value="SCC">SCC</option>
                                 <option value="Adriatico">Adriatico</option>
@@ -135,7 +135,7 @@
                         <!-- Tags -->
                         <div class="mb-3">
                             <label for="taskTagsAdd" class="form-label">Tags</label>
-                            <select name="tags" class="form-control select2" id="taskTagsAdd" multiple="multiple" required>
+                            <select disabled name="tags" class="form-control select2" id="taskTagsAdd" multiple="multiple" required>
                                 <!-- Dynamically populate options using EJS -->
                                 <% circuit.tags.forEach(tag => { %>
                                     <option value="<%= tag %>" selected><%= tag %></option>
@@ -152,11 +152,11 @@
                         <!-- Commit Rate -->
                         <div class="mb-3">
                             <label for="taskDescriptionAdd" class="form-label">Commit Rate</label>
-                            <input type="number" class="form-control" name="commitRate" value="<%= circuit.commitRate %>" min="0" required>
+                            <input disabled type="number" class="form-control" name="commitRate" value="<%= circuit.commitRate %>" min="0" required>
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-primary">Back</button>
                     </form>
                 </div>
             </div>

@@ -76,6 +76,8 @@
                         <td><%= circuit.commitRate %></td>
                         <td><%= circuit.timestamp %></td>
                         <td>
+                            <!-- View Button (Gray)-->
+                            <a class="btn btn-secondary btn-sm" href="/view/<%= circuit.id %>" role="button">View</a>
                             <!-- Edit Button (Blue) -->
                             <a class="btn btn-primary btn-sm" href="/edit/<%= circuit.id %>" role="button">Edit</a>
                             <!-- Delete Button (Red) -->
