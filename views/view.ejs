@@ -65,7 +65,7 @@
     <!-- Navbar with To Do List heading and Add Task button -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
-            <a class="navbar-brand text-white" href="#">Netbox</a>
+            <a class="navbar-brand text-white" href="#">PT&T Netbox</a>
             <a class="btn btn-danger btn-outline-light ms-auto" href="/" role="button">Back to List</a>
         </div>
     </nav>  
@@ -74,12 +74,18 @@
         <div class="col-md-8">  <!-- Adjusted the column size to occupy more space -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">View Circuit</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">View Circuit</h5>
+                        <div class="action-buttons">
+                            <a class="btn btn-primary " href="/edit/<%= circuit.id %>" role="button">Edit</a>
+                            <a class="btn btn-secondary " href="/" role="button">Back</a>
+                        </div>
+                    </div>
                     <form action="/" method="get" id="form-view-circuit">
                         <!-- CID -->
                         <div class="mb-3">
                             <label for="taskTitleAdd" class="form-label">CID</label>
-                            <input disabled type="number" class="form-control" id="taskTitleAdd" name="cid" value="<%= circuit.cid %>" min="1" required>
+                            <input disabled type="number" class="form-control" id="taskTitleAdd" name="cid" value="<%= circuit.cid %>" required>
                         </div>
 
                         <!-- Provider -->
@@ -118,7 +124,21 @@
                         <!-- Tenant -->
                         <div class="mb-3">
                             <label for="taskTenantAdd" class="form-label">Tenant</label>
-                            <input disabled type="text" class="form-control" id="taskTenantAdd" name="tenant" value="<%= circuit.tenant %>" required>
+                            <input disabled type="text" class="form-control" id="taskTenantAdd" name="tenant" value="<%= circuit.tenant %>"  required>
+                        </div>
+
+                        <!-- Gateway Address -->
+                        <div class="mb-3">
+                            <label for="taskTenantAdd" class="form-label">Gateway Address</label>
+                                <input type="text" class="form-control" id="taskGatewayAdd" name="gateway" placeholder="Enter Gateway Address" required 
+                                pattern="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$" 
+                                title="Please enter a valid Gateway Address (e.g., 192.168.1.1)">
+                        </div>
+
+                        <!-- VLAN -->
+                        <div class="mb-3">
+                            <label for="taskDescriptionAdd" class="form-label">VLAN</label>
+                            <input type="number" class="form-control" name="vlan" placeholder="VLAN" min="0" required>
                         </div>
 
                         <!-- Termination -->
@@ -156,7 +176,7 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">Back</button>
+                        <a class="btn btn-secondary " href="/" role="button">Back</a>
                     </form>
                 </div>
             </div>

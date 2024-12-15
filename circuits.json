@@ -1,33 +1,19 @@
 [
   {
     "id": 1,
-    "cid": "12345",
+    "cid": 12345,
     "provider": "PT&T",
     "type": "Internet",
     "status": "Active",
     "tenant": "Test",
+    "gateway": "192.168.1.1",
+    "vlan": "1193",
     "termination": "SCC",
     "tags": [
       "Baudcom ONT",
-      "DHCP2",
-      "OLT1",
-      "ONT"
-    ],
-    "commitRate": "5",
-    "timestamp": "12/2/2024, 7:06:58 AM"
-  },
-  {
-    "id": 2,
-    "cid": "177013",
-    "provider": "PT&T - Airlive",
-    "type": "DLL",
-    "status": "Active",
-    "tenant": "Test",
-    "termination": "Adriatico",
-    "tags": [
       "DHCP2"
     ],
     "commitRate": "5",
-    "timestamp": "12/2/2024, 10:57:43 AM"
+    "timestamp": "12/15/2024, 10:11:18 AM"
   }
 ]

@@ -54,6 +54,8 @@ app.post("/circuits", (req,res) => {
     const type = req.body.type;
     const status = req.body.status;
     const tenant = req.body.tenant;
+    const gateway = req.body.gateway;
+    const vlan = req.body.vlan;
     const termination = req.body.termination;
     let tags = req.body.tags;
     const commitRate = req.body.commitRate;
@@ -68,7 +70,7 @@ app.post("/circuits", (req,res) => {
 
     const timestamp = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
     
-    const newCircuit = {id: id, cid: cid, provider: provider, type: type, status: status, tenant: tenant, termination: termination, tags: tags, commitRate: commitRate, timestamp:timestamp}
+    const newCircuit = {id: id, cid: cid, provider: provider, type: type, status: status, tenant: tenant, gateway: gateway, vlan: vlan, termination: termination, tags: tags, commitRate: commitRate, timestamp:timestamp}
     circuits.push(newCircuit);
     fs.writeFileSync(filePath, JSON.stringify(circuits, null, 2));
     res.json(newCircuit);
@@ -93,6 +95,8 @@ app.patch("/circuits/:id", (req,res) => {
     selectCID.type = req.body.type;
     selectCID.status = req.body.status;
     selectCID.tenant = req.body.tenant;
+    selectCID.gateway= req.body.gateway;
+    selectCID.vlan = req.body.vlan;
     selectCID.termination = req.body.termination;
     selectCID.tags = req.body.tags;
     selectCID.commitRate = req.body.commitRate;
